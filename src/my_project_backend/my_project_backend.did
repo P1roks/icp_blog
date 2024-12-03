@@ -4,10 +4,15 @@ type Blog =
     date: nat64;
     content: text;
     tags: vec text; 
-  }
+  };
+
+type Result = variant { 
+  Ok: null;
+  Err: text;
+};
 
 service : {
     "greet": (text) -> (text) query;
-    "add_blog": (text, text, vec text) -> ();
+    "add_blog": (text, text, vec text) -> (Result);
     "get_blogs": () -> (vec Blog) query;
 }

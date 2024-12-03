@@ -9,11 +9,15 @@ thread_local! {
 }
 
 #[ic_cdk::update]
-fn add_blog(title: String, content: String, tags: Vec<String>) {
+fn add_blog(title: String, content: String, tags: Vec<String>) -> Result<(), String> {
+    if title.len() > 250 {
+        return Err(String::from("Title is too long"));
+    }
     BLOGS.with(|blogs|
          blogs.borrow_mut().push(
             Blog::new(title, content, tags)
         ));
+    Ok(())
 }
 
 #[ic_cdk::query]
