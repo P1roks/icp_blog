@@ -9,15 +9,28 @@ thread_local! {
 }
 
 #[ic_cdk::update]
-fn add_blog(title: String, content: String, tags: Vec<String>) -> Result<(), String> {
+fn add_blog(title: String, content: String, tags: Vec<String>) -> Result<Blog, String> {
     if title.len() > 250 {
-        return Err(String::from("Title is too long"));
+        Err(String::from("Title is too long"))
     }
-    BLOGS.with(|blogs|
-         blogs.borrow_mut().push(
-            Blog::new(title, content, tags)
-        ));
-    Ok(())
+    else if content.len() > 500 {
+        Err(String::from("Content is too long"))
+    }
+    else if tags.len() > 3 {
+        Err(String::from("Too many tags"))
+    }
+    else {
+        BLOGS.with(|blogs| {
+            blogs.borrow_mut().push(
+                Blog::new(title, content, tags)
+            );
+    
+            match blogs.borrow().last() {
+                Some(val) => Ok(val.clone()),
+                None => Err(String::from("Vec should not be empty")),
+            }
+        })
+    }
 }
 
 #[ic_cdk::query]
