@@ -9,11 +9,10 @@ thread_local! {
 }
 
 #[ic_cdk::update]
-fn add_blog(title: String, date: u32,
-     content: String, tags: Vec<String>) {
+fn add_blog(title: String, content: String, tags: Vec<String>) {
     BLOGS.with(|blogs|
          blogs.borrow_mut().push(
-            Blog::new(title, date, content, tags)
+            Blog::new(title, content, tags)
         ));
 }
 
