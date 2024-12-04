@@ -1,16 +1,28 @@
 <script setup>
 import { ref } from 'vue';
 import { my_project_backend } from 'declarations/my_project_backend/index';
-let greeting = ref('');
+let blogs = ref([]);
 
 async function handleSubmit(e) {
   e.preventDefault();
   const target = e.target;
-  const name = target.querySelector('#name').value;
-  await my_project_backend.greet(name).then((response) => {
-    greeting.value = response;
-  });
+  const title = target.querySelector('#title').value;
+  const content = target.querySelector('#content').value;
+  const tags = target.querySelector('#tags').value.split(",");
+
+  await my_project_backend.add_blog(title, content, tags);
+  await getBlogs()
 }
+
+async function getBlogs() {
+  blogs.value = (await my_project_backend.get_blogs()).map(blog => {
+    return {
+      ...blog,
+      date: blog.date.toString()
+    }
+  }); 
+}
+
 </script>
 
 <template>
@@ -19,10 +31,29 @@ async function handleSubmit(e) {
     <br />
     <br />
     <form action="#" @submit="handleSubmit">
-      <label for="name">Enter your name: &nbsp;</label>
-      <input id="name" alt="Name" type="text" />
-      <button type="submit">Click Me!</button>
+      <span>
+        <label for="title">Title:</label>
+        <input id="title" alt="Name" type="text" />
+      </span>
+
+      <span>
+        <label for="content">Content:</label>
+        <input id="content" alt="content" type="text" />
+      </span>
+
+      <span>
+        <label for="tags">tags:</label>
+        <input id="tags" alt="tags" type="text" />
+      </span>
+
+      <button type="submit">Click to add!</button>
     </form>
-    <section id="greeting">{{ greeting }}</section>
+
+    <div>
+      <section v-for="blog of blogs">
+        <h1>{{ blog.title }}</h1>
+        <p>{{ blog.content }}</p>
+      </section>
+    </div>
   </main>
 </template>

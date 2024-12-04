@@ -13,7 +13,7 @@ fn add_blog(title: String, content: String, tags: Vec<String>) -> Result<Blog, S
     if title.len() > 250 {
         Err(String::from("Title is too long"))
     }
-    else if content.len() > 500 {
+    else if content.len() > 2000 {
         Err(String::from("Content is too long"))
     }
     else if tags.len() > 3 {
