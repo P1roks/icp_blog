@@ -369,6 +369,7 @@ dependencies = [
  "ic-cdk",
  "ic-cdk-macros 0.17.0",
  "ic-cdk-timers",
+ "serde",
 ]
 
 [[package]]

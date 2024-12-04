@@ -6,6 +6,14 @@ type Blog =
     tags: vec text; 
   };
 
+type Config = 
+  record {
+    max_tags_count: nat8;
+    max_content_len: nat16;
+    max_title_len: nat8;
+    tags: vec text;
+  };
+
 type Result = variant { 
   Ok: Blog;
   Err: text;
@@ -15,4 +23,5 @@ service : {
     "greet": (text) -> (text) query;
     "add_blog": (text, text, vec text) -> (Result);
     "get_blogs": () -> (vec Blog) query;
+    "edit_config": (Config) -> ();
 }
