@@ -23,5 +23,6 @@ service : {
     "greet": (text) -> (text) query;
     "add_blog": (text, text, vec text) -> (Result);
     "get_blogs": () -> (vec Blog) query;
+    "get_config": () -> (Config) query;
     "edit_config": (Config) -> ();
 }

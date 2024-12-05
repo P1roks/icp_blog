@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.pridi-regular {
+    font-family: "Pridi", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+@layer components{
+    #main-form input{
+        @apply rounded-full;
+    }
+
+    #main-form textarea, #main-form input{
+        @apply py-1 px-4 outline-none focus:border-emerald-700 border-2 w-full
+    }
+
+    #main-form label, #main-form button{
+        @apply text-white;
+    }
+}
